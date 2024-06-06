@@ -1,6 +1,10 @@
 package Config
 
-import "os"
+import (
+	"github.com/joho/godotenv"
+	"log"
+	"os"
+)
 
 type Config struct {
 	Port              string
@@ -9,6 +13,10 @@ type Config struct {
 }
 
 func InitConfig() *Config {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 	return &Config{
 		Port:              os.Getenv("PORT"),
 		DatabaseURL:       os.Getenv("DATABASE_URL"),

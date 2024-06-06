@@ -1,11 +1,20 @@
 package Routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"payment-microservice/Controllers"
+	"payment-microservice/Services"
+)
+
+var (
+	PaymentService    = Services.NewPaymentService()
+	PaymentController = Controllers.NewPaymentController(PaymentService)
+)
 
 func SetUpPaymentRoutes(router *gin.RouterGroup) {
 	paymentGroup := router.Group("/Payment")
 	{
-		paymentGroup.POST("/Pay", Pay)
+		paymentGroup.POST("/Create", PaymentController.CreatePayment)
 	}
 
 }
