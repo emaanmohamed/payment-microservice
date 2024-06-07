@@ -2,16 +2,22 @@ package Utils
 
 import "github.com/gin-gonic/gin"
 
-type PaymentRequest struct {
+type PaymentCreateRequest struct {
 	Gateway     string `json:"gateway" binding:"required"`
 	Amount      int    `json:"amount" binding:"required"`
 	Currency    string `json:"currency" binding:"required"`
 	Description string `json:"description"`
 }
 
+type PaymentRequest struct {
+	ID      string `json:"ID" binding:"required"`
+	Gateway string `json:"gateway" binding:"required"`
+}
+
 type PaymentResponse struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
+	Data    interface{} `json:"data"`
+	Status  string      `json:"status"`
+	Message string      `json:"message"`
 }
 
 type PaymentStatusUpdateRequest struct {

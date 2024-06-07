@@ -20,21 +20,21 @@ func NewPaymentService() *PaymentService {
 	}
 }
 
-func (paymentService *PaymentService) RegisterGateway(request Utils.PaymentRequest) error {
+func (paymentService *PaymentService) RegisterGateway(request Utils.PaymentCreateRequest) error {
 	paymentService.mu.Lock()
 	defer paymentService.mu.Unlock()
 
 	if _, exists := paymentService.gatewayRegistry[request.Gateway]; exists {
-		return errors.New("gateway already registered")
+		log.Printf("Gateway already registered: %s", request.Gateway)
+		return nil
 	}
 
 	var gateway Interfaces.Gateway
 	switch request.Gateway {
-	//case "stripe":
-	//	gateway = NewStripeGateway()
+	case "stripe":
+		gateway = NewStripeService()
 	case "paytabs":
 		gateway = NewPaytabsService()
-	// Add more cases for other gateway types
 	default:
 		return errors.New("unsupported gateway type")
 	}
@@ -56,7 +56,7 @@ func (paymentService *PaymentService) GetPaymentService(gateway string) (Interfa
 
 }
 
-func (paymentService *PaymentService) CreatePayment(request Utils.PaymentRequest) (Utils.PaymentResponse, error) {
+func (paymentService *PaymentService) CreatePayment(request Utils.PaymentCreateRequest) (Utils.PaymentResponse, error) {
 	service, error := paymentService.GetPaymentService(request.Gateway)
 	if error != nil {
 		return Utils.PaymentResponse{}, error

@@ -17,7 +17,7 @@ func NewPaymentController(paymentService *Services.PaymentService) *PaymentContr
 }
 
 func (paymentController *PaymentController) CreatePayment(c *gin.Context) {
-	var request Utils.PaymentRequest
+	var request Utils.PaymentCreateRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		Utils.RespondWithError(c, 400, "Invalid request")
 		return
@@ -33,5 +33,9 @@ func (paymentController *PaymentController) CreatePayment(c *gin.Context) {
 		return
 	}
 	Utils.RespondWithJSON(c, 200, response)
+
+}
+
+func (paymentController *PaymentController) GetPayment(c *gin.Context) {
 
 }

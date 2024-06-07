@@ -2,6 +2,8 @@ package Services
 
 import "payment-microservice/Utils"
 
+//Note: I add this service to show how to implement a service that implements the PaymentService interface
+
 type StripeService struct{}
 
 func NewStripeService() *StripeService {
@@ -18,7 +20,7 @@ func (stripeService *StripeService) UpdatePaymentStatus(id string, request Utils
 	panic("implement me")
 }
 
-func (stripeService *StripeService) CreatePayment(request Utils.PaymentRequest) (Utils.PaymentResponse, error) {
+func (stripeService *StripeService) CreatePayment(request Utils.PaymentCreateRequest) (Utils.PaymentResponse, error) {
 	// Call Stripe API to create payment
 	return Utils.PaymentResponse{
 		Status: "success",

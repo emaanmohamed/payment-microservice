@@ -19,7 +19,7 @@ func InitConfig() *Config {
 	}
 	return &Config{
 		Port:              os.Getenv("PORT"),
-		DatabaseURL:       os.Getenv("DATABASE_URL"),
+		DatabaseURL:       os.Getenv("DB_URL"),
 		PaymentGatewayURL: os.Getenv("PAYMENT_GATEWAY"),
 	}
 }
