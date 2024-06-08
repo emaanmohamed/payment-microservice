@@ -14,7 +14,7 @@ func NewPaytabsService() *PaytabsService {
 
 func (paytabsService *PaytabsService) GetPayment(id string) (Utils.PaymentResponse, error) {
 	payment := models.Payment{}
-	result := Initializers.DB.First(&payment, id)
+	result := Initializers.DB.Where("id = ?", id).First(&payment)
 	if result.Error != nil {
 		return Utils.PaymentResponse{
 			Status: "failed",

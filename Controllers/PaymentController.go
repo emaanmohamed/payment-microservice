@@ -22,7 +22,10 @@ func (paymentController *PaymentController) CreatePayment(c *gin.Context) {
 		Utils.RespondWithError(c, 400, "Invalid request")
 		return
 	}
-	err := paymentController.paymentService.RegisterGateway(request)
+
+	gateway := Utils.PaymentRegister{Gateway: request.Gateway}
+
+	err := paymentController.paymentService.RegisterGateway(gateway)
 	if err != nil {
 		Utils.RespondWithError(c, 500, err.Error())
 		return
@@ -37,5 +40,36 @@ func (paymentController *PaymentController) CreatePayment(c *gin.Context) {
 }
 
 func (paymentController *PaymentController) GetPayment(c *gin.Context) {
+	var request Utils.PaymentRequest
 
+	if err := c.ShouldBindJSON(&request); err != nil {
+		Utils.RespondWithError(c, 400, "Invalid request format")
+		return
+	}
+
+	gateway := Utils.PaymentRegister{Gateway: request.Gateway}
+
+	err := paymentController.paymentService.RegisterGateway(gateway)
+	if err != nil {
+		Utils.RespondWithError(c, 500, err.Error())
+		return
+	}
+	response, err := paymentController.paymentService.GetPayment(request.ID, request.Gateway)
+	if err != nil {
+		Utils.RespondWithError(c, 500, err.Error())
+		return
+	}
+	Utils.RespondWithJSON(c, 200, response)
+
+}
+
+func (paymentController *PaymentController) RegisterGateway(request Utils.PaymentRegister) (Utils.PaymentRegister, error) {
+	gateway := Utils.PaymentRegister{Gateway: request.Gateway}
+
+	err := paymentController.paymentService.RegisterGateway(gateway)
+	if err != nil {
+		return gateway, err
+
+	}
+	return gateway, nil
 }

@@ -20,7 +20,7 @@ func NewPaymentService() *PaymentService {
 	}
 }
 
-func (paymentService *PaymentService) RegisterGateway(request Utils.PaymentCreateRequest) error {
+func (paymentService *PaymentService) RegisterGateway(request Utils.PaymentRegister) error {
 	paymentService.mu.Lock()
 	defer paymentService.mu.Unlock()
 

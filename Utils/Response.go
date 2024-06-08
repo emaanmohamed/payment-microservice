@@ -3,14 +3,15 @@ package Utils
 import "github.com/gin-gonic/gin"
 
 type PaymentCreateRequest struct {
-	Gateway     string `json:"gateway" binding:"required"`
-	Amount      int    `json:"amount" binding:"required"`
-	Currency    string `json:"currency" binding:"required"`
-	Description string `json:"description"`
+	Gateway     string  `json:"gateway" validate:"required"`
+	Amount      float64 `json:"amount" validate:"required,gt=0"`
+	Currency    string  `json:"currency" validate:"required,len=3"`
+	Description string  `json:"description" validate:"required"`
+	Status      string  `json:"status" validate:"required"`
 }
 
 type PaymentRequest struct {
-	ID      string `json:"ID" binding:"required"`
+	ID      string `json:"payment_id" binding:"required"`
 	Gateway string `json:"gateway" binding:"required"`
 }
 
@@ -18,6 +19,10 @@ type PaymentResponse struct {
 	Data    interface{} `json:"data"`
 	Status  string      `json:"status"`
 	Message string      `json:"message"`
+}
+
+type PaymentRegister struct {
+	Gateway string `json:"gateway" binding:"required"`
 }
 
 type PaymentStatusUpdateRequest struct {
