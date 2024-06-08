@@ -29,8 +29,26 @@ func (paytabsService *PaytabsService) GetPayment(id string) (Utils.PaymentRespon
 }
 
 func (paytabsService *PaytabsService) UpdatePaymentStatus(id string, request Utils.PaymentStatusUpdateRequest) (Utils.PaymentResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	payment := models.Payment{}
+	result := Initializers.DB.Where("id = ?", id).First(&payment)
+	if result.Error != nil {
+		return Utils.PaymentResponse{
+			Status: "failed",
+		}, result.Error
+	}
+	payment.Status = request.Status
+	result = Initializers.DB.Save(&payment)
+	if result.Error != nil {
+		return Utils.PaymentResponse{
+			Status: "failed",
+		}, result.Error
+	}
+	return Utils.PaymentResponse{
+		Data:    payment,
+		Message: "Payment status updated successfully",
+		Status:  "success",
+	}, nil
+
 }
 
 func (paytabsService *PaytabsService) CreatePayment(request Utils.PaymentCreateRequest) (Utils.PaymentResponse, error) {

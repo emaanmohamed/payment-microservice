@@ -16,6 +16,7 @@ func SetUpPaymentRoutes(router *gin.RouterGroup) {
 	{
 		paymentGroup.POST("/Create", PaymentController.CreatePayment)
 		paymentGroup.POST("/Get", PaymentController.GetPayment)
+		paymentGroup.POST("/Update", PaymentController.UpdatePaymentStatus)
 	}
 
 }

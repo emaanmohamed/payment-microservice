@@ -26,7 +26,9 @@ type PaymentRegister struct {
 }
 
 type PaymentStatusUpdateRequest struct {
-	Status string `json:"status" binding:"required"`
+	ID      string `json:"payment_id" binding:"required"`
+	Status  string `json:"status" binding:"required"`
+	Gateway string `json:"gateway" binding:"required"`
 }
 
 func RespondWithError(c *gin.Context, code int, message string) {
