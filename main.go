@@ -4,14 +4,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"payment-microservice/Config"
 	"payment-microservice/Initializers"
-	Routes "payment-microservice/Routes/Payment"
+	RoutesAuth "payment-microservice/Routes/Auth"
+	RoutesPayment "payment-microservice/Routes/Payment"
 )
 
 func main() {
 	Initializers.ConnectToDB()
 	server := gin.Default()
 	routes := server.Group("/api/v1")
-	Routes.SetUpPaymentRoutes(routes)
+	RoutesPayment.SetUpPaymentRoutes(routes)
+	RoutesAuth.SetUpAuthRoutes(routes)
 	server.Run(":" + Config.InitConfig().Port)
 
 }

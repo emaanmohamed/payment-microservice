@@ -3,6 +3,7 @@ package Routes
 import (
 	"github.com/gin-gonic/gin"
 	"payment-microservice/Controllers"
+	"payment-microservice/Middleware"
 	"payment-microservice/Services"
 )
 
@@ -12,11 +13,12 @@ var (
 )
 
 func SetUpPaymentRoutes(router *gin.RouterGroup) {
-	paymentGroup := router.Group("/Payment")
+	paymentGroup := router.Group("/Payment").Use(Middleware.AuthMiddleware())
 	{
 		paymentGroup.POST("/Create", PaymentController.CreatePayment)
-		paymentGroup.POST("/Get", PaymentController.GetPayment)
 		paymentGroup.POST("/Update", PaymentController.UpdatePaymentStatus)
+
+		paymentGroup.POST("/Get", PaymentController.GetPayment).Use(Middleware.AdminMiddleware())
 	}
 
 }
